@@ -1,9 +1,13 @@
 import TypingBox from './TypingBox';
+import { generate } from './utils/words';
 
 function App() {
+  const initialWords = generate();
+  console.log(initialWords);
+
   return (
     <div className='App'>
-      <TypingBox />
+      <TypingBox initialWords={initialWords} />
     </div>
   );
 }
