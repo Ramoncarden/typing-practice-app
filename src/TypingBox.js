@@ -1,8 +1,12 @@
 import React from 'react';
 
-// TODO: SET INITIAL WORDS AS DEFAULT VALUE FOR TEXTAREA
-
-const TypingBox = ({ initialWords }) => {
+const TypingBox = ({
+  initialWords,
+  leftPad,
+  outgoingChars,
+  currentChar,
+  incomingChars,
+}) => {
   return (
     <section className='text-gray-600 body-font bg-teal-100 h-screen'>
       <div className='container px-5 py-20 mx-auto flex flex-col h-screen'>
@@ -29,10 +33,17 @@ const TypingBox = ({ initialWords }) => {
             </div>
           </div>
           <div className='flex flex-col sm:flex-row absolute inset-x-0 bottom-1/3'>
-            <div className='border-gray-200 flex flex-col border-t mx-auto my-auto mt-4 pt-4 text-center w-2/4'>
-              <textarea className='leading-loose text-lg mb-4 h-60 text-4xl text-teal-800 tracking-widest px-2'>
-                {initialWords}
-              </textarea>
+            <div className='border-gray-200 flex flex-col border-t mx-auto my-auto text-center mt-4 pt-4 w-3/4'>
+              <div className='leading-loose text-lg mb-4 h-60 bg-gray-50 text-4xl text-teal-800 tracking-widest px-2 Character'>
+                <span className='Character-out'>
+                  {(leftPad + outgoingChars).slice(-20)}
+                </span>
+                <span className='Character-current'>{currentChar}</span>
+                <span>{incomingChars.substr(0, 20)}</span>
+                <p className='text-center font-bold mt-12 bg-teal-100 w-1/4 mx-auto'>
+                  1:00
+                </p>
+              </div>
             </div>
           </div>
         </div>

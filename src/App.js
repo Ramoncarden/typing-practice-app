@@ -1,13 +1,49 @@
+import React, { useState } from 'react';
 import TypingBox from './TypingBox';
 import { generate } from './utils/words';
+import useKeyPress from './hooks/useKeyPress';
+
+const initialWords = generate();
 
 function App() {
-  const initialWords = generate();
-  console.log(initialWords);
+  // leftPad state keeps current typed character at center of typing line.
+  const [leftPad, setLeftPad] = useState(new Array(20).fill(' ').join(''));
+
+  const [outgoingChars, setOutgoingChars] = useState('');
+  const [currentChar, setCurrentChar] = useState(initialWords.charAt(0));
+  const [incomingChars, setIncomingChars] = useState(initialWords.substr(1));
+
+  useKeyPress((key) => {
+    let updatedOutgoingChars = outgoingChars;
+    let updatedIncomingChars = incomingChars;
+
+    if (key === currentChar) {
+      if (leftPad.length > 0) {
+        setLeftPad(leftPad.substring(1));
+      }
+
+      updatedOutgoingChars += currentChar;
+      setOutgoingChars(updatedOutgoingChars);
+
+      setCurrentChar(incomingChars.charAt(0));
+
+      updatedIncomingChars = incomingChars.substring(1);
+      if (updatedIncomingChars.split(' ').length < 10) {
+        updatedIncomingChars += ' ' + generate();
+      }
+      setIncomingChars(updatedIncomingChars);
+    }
+  });
 
   return (
-    <div className='App'>
-      <TypingBox initialWords={initialWords} />
+    <div className='App font-mono'>
+      <TypingBox
+        initialWords={initialWords}
+        leftPad={leftPad}
+        outgoingChars={outgoingChars}
+        currentChar={currentChar}
+        incomingChars={incomingChars}
+      />
     </div>
   );
 }

@@ -4,7 +4,7 @@ const useKeyPress = (callback) => {
   const [keyPressed, setKeyPressed] = useState();
 
   useEffect(() => {
-    // capture down stroke
+    // capture down stroke and set setKeyPressed to current key
     const downHandler = ({ key }) => {
       if (keyPressed !== key && key.length === 1) {
         setKeyPressed(key);
