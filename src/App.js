@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TypingBox from './TypingBox';
 import { generate } from './utils/words';
 import useKeyPress from './hooks/useKeyPress';
+import { currentTime } from './utils/time';
+import Stats from './Stats';
 
 const initialWords = generate();
 
@@ -12,28 +14,72 @@ function App() {
   const [outgoingChars, setOutgoingChars] = useState('');
   const [currentChar, setCurrentChar] = useState(initialWords.charAt(0));
   const [incomingChars, setIncomingChars] = useState(initialWords.substr(1));
+  const [startTime, setStartTime] = useState();
+  const [wordCount, setWordCount] = useState(0);
+  const [wpm, setWpm] = useState(0);
+  const [accuracy, setAccuracy] = useState(0);
+  const [typedChars, setTypedChars] = useState('');
+  const [seconds, setSeconds] = useState(10);
+  const [active, setIsActive] = useState(false);
+
+  const resetAll = () => {
+    console.log('resetted and forgetted');
+  };
 
   useKeyPress((key) => {
     let updatedOutgoingChars = outgoingChars;
     let updatedIncomingChars = incomingChars;
 
-    if (key === currentChar) {
-      if (leftPad.length > 0) {
-        setLeftPad(leftPad.substring(1));
+    if (!startTime) {
+      setIsActive(true);
+      setStartTime(currentTime());
+    } else if (seconds === 0) {
+      setIsActive(false);
+      console.log('done');
+    }
+
+    if (seconds > 0) {
+      const updatedTypedChars = typedChars + key;
+      setTypedChars(updatedTypedChars);
+
+      if (key === currentChar) {
+        if (leftPad.length > 0) {
+          setLeftPad(leftPad.substring(1));
+        }
+
+        if (incomingChars.charAt(0) === ' ') {
+          setWordCount(wordCount + 1);
+          const durationInMinutes = (currentTime() - startTime) / 60000.0;
+
+          setWpm(((wordCount + 1) / durationInMinutes).toFixed(2));
+        }
+
+        updatedOutgoingChars += currentChar;
+        setOutgoingChars(updatedOutgoingChars);
+
+        setCurrentChar(incomingChars.charAt(0));
+
+        updatedIncomingChars = incomingChars.substring(1);
+        if (updatedIncomingChars.split(' ').length < 10) {
+          updatedIncomingChars += ' ' + generate();
+        }
+        setIncomingChars(updatedIncomingChars);
+
+        setAccuracy(
+          (
+            (updatedOutgoingChars.length * 100) /
+            updatedTypedChars.length
+          ).toFixed(2)
+        );
       }
-
-      updatedOutgoingChars += currentChar;
-      setOutgoingChars(updatedOutgoingChars);
-
-      setCurrentChar(incomingChars.charAt(0));
-
-      updatedIncomingChars = incomingChars.substring(1);
-      if (updatedIncomingChars.split(' ').length < 10) {
-        updatedIncomingChars += ' ' + generate();
-      }
-      setIncomingChars(updatedIncomingChars);
     }
   });
+
+  useEffect(() => {
+    if (active) {
+      seconds > 0 && setTimeout(() => setSeconds(seconds - 1), 1000);
+    }
+  }, [seconds, active]);
 
   return (
     <div className='App font-mono'>
@@ -43,7 +89,16 @@ function App() {
         outgoingChars={outgoingChars}
         currentChar={currentChar}
         incomingChars={incomingChars}
+        seconds={seconds}
       />
+      {seconds === 0 ? (
+        <Stats
+          wpm={wpm}
+          accuracy={accuracy}
+          seconds={seconds}
+          resetAll={resetAll}
+        />
+      ) : null}
     </div>
   );
 }

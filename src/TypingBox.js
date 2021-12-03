@@ -1,11 +1,11 @@
 import React from 'react';
 
 const TypingBox = ({
-  initialWords,
   leftPad,
   outgoingChars,
   currentChar,
   incomingChars,
+  seconds,
 }) => {
   return (
     <section className='text-gray-600 body-font bg-teal-100 h-screen'>
@@ -16,7 +16,7 @@ const TypingBox = ({
               <div className='mt-6 relative rounded-lg bg-teal-700 container mx-auto flex flex-col items-center pt-12 sm:pt-24 pb-24 sm:pb-32 md:pb-48 lg:pb-40 xl:pb-10'>
                 <div className='w-11/12 sm:w-2/3 mb-5 sm:mb-10'>
                   <h1 className='sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-center text-yellow-100 font-bold leading-tight'>
-                    Typing Practice. Press start below to begin!
+                    Typing Practice. Start typing below to begin!
                   </h1>
                 </div>
                 <div className='flex justify-center items-center mb-10 sm:mb-20'>
@@ -40,9 +40,9 @@ const TypingBox = ({
                 </span>
                 <span className='Character-current'>{currentChar}</span>
                 <span>{incomingChars.substr(0, 20)}</span>
-                <p className='text-center font-bold mt-12 bg-teal-100 w-1/4 mx-auto'>
-                  1:00
-                </p>
+                <div className='text-center font-bold mt-12 bg-teal-100 w-1/4 mx-auto'>
+                  {seconds}
+                </div>
               </div>
             </div>
           </div>
