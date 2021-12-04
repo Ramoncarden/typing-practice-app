@@ -4,8 +4,9 @@ import { generate } from './utils/words';
 import useKeyPress from './hooks/useKeyPress';
 import { currentTime } from './utils/time';
 import Stats from './Stats';
+import Table from './Table';
 
-const initialWords = generate();
+let initialWords = generate();
 
 function App() {
   // leftPad state keeps current typed character at center of typing line.
@@ -14,16 +15,44 @@ function App() {
   const [outgoingChars, setOutgoingChars] = useState('');
   const [currentChar, setCurrentChar] = useState(initialWords.charAt(0));
   const [incomingChars, setIncomingChars] = useState(initialWords.substr(1));
-  const [startTime, setStartTime] = useState();
+  const [startTime, setStartTime] = useState(null);
   const [wordCount, setWordCount] = useState(0);
   const [wpm, setWpm] = useState(0);
   const [accuracy, setAccuracy] = useState(0);
   const [typedChars, setTypedChars] = useState('');
-  const [seconds, setSeconds] = useState(10);
+  const [seconds, setSeconds] = useState(60);
   const [active, setIsActive] = useState(false);
+  const [saveStats, setSaveStats] = useState(false);
 
   const resetAll = () => {
-    console.log('resetted and forgetted');
+    setLeftPad(new Array(20).fill(' ').join(''));
+    setOutgoingChars('');
+    setCurrentChar(initialWords.charAt(0));
+    setIncomingChars(initialWords.substr(1));
+    setStartTime(null);
+    setWordCount(null);
+    setWpm(0);
+    setAccuracy(0);
+    setTypedChars('');
+    setSeconds(60);
+    setIsActive(false);
+    initialWords = generate();
+    setSaveStats(false);
+  };
+
+  const saveToLocalStorage = () => {
+    const currentDate = new Date().toJSON().slice(0, 10).replace(/-/g, '/');
+    localStorage.setItem('date', JSON.stringify(currentDate));
+    localStorage.setItem('WPM', JSON.stringify(wpm));
+    localStorage.setItem('Accuracy', JSON.stringify(accuracy));
+    setSaveStats(true);
+  };
+
+  const clearLocalStorage = () => {
+    localStorage.removeItem('date');
+    localStorage.removeItem('WPM');
+    localStorage.removeItem('Accuracy');
+    resetAll();
   };
 
   useKeyPress((key) => {
@@ -35,7 +64,6 @@ function App() {
       setStartTime(currentTime());
     } else if (seconds === 0) {
       setIsActive(false);
-      console.log('done');
     }
 
     if (seconds > 0) {
@@ -92,12 +120,21 @@ function App() {
         seconds={seconds}
       />
       {seconds === 0 ? (
-        <Stats
-          wpm={wpm}
-          accuracy={accuracy}
-          seconds={seconds}
-          resetAll={resetAll}
-        />
+        <>
+          <Stats
+            wpm={wpm}
+            accuracy={accuracy}
+            seconds={seconds}
+            resetAll={resetAll}
+            saveToLocalStorage={saveToLocalStorage}
+          />
+          <Table
+            clearLocalStorage={clearLocalStorage}
+            wpm={wpm}
+            accuracy={accuracy}
+            saveStats={saveStats}
+          />
+        </>
       ) : null}
     </div>
   );

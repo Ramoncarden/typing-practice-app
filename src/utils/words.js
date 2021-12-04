@@ -1,8 +1,8 @@
 import faker from 'faker';
 
-export const generate = (count = 1) => {
+export const generate = (count = 10) => {
   return new Array(count)
     .fill()
-    .map((_) => faker.hacker.phrase())
+    .map((_) => faker.random.words())
     .join(' ');
 };

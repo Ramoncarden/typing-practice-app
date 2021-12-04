@@ -19,14 +19,12 @@ const TypingBox = ({
                     Typing Practice. Start typing below to begin!
                   </h1>
                 </div>
-                <div className='flex justify-center items-center mb-10 sm:mb-20'>
+                <div className='flex justify-center items-center mb-10 sm:mb-12'>
                   <div>
-                    <button className='hover:text-white hover:bg-transparent hover:border-white border bg-white transition duration-150 ease-in-out focus:outline-none  rounded text-indigo-700 px-4 sm:px-8 py-1 sm:py-3 text-sm'>
-                      Get Started
-                    </button>
-                    <button className='hover:bg-white hover:text-indigo-600 hover:border-indigo-600 ml-3 sm:ml-6 bg-transparent transition duration-150 ease-in-out focus:outline-none hover:bg-indigo-700-800 rounded border border-white text-white px-4 sm:px-8 py-1 sm:py-3 text-sm'>
-                      Learn More
-                    </button>
+                    <h2 className='text-xl text-teal-100 max-w-lg text-center'>
+                      Test your typing skills and save your high score. One
+                      minute rounds!
+                    </h2>
                   </div>
                 </div>
               </div>
