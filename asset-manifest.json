@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/typing-practice-app/static/css/main.794ac87e.chunk.css",
+    "main.js": "/typing-practice-app/static/js/main.b330f9b6.chunk.js",
+    "main.js.map": "/typing-practice-app/static/js/main.b330f9b6.chunk.js.map",
+    "runtime-main.js": "/typing-practice-app/static/js/runtime-main.6f6326ca.js",
+    "runtime-main.js.map": "/typing-practice-app/static/js/runtime-main.6f6326ca.js.map",
+    "static/js/2.074c8865.chunk.js": "/typing-practice-app/static/js/2.074c8865.chunk.js",
+    "static/js/2.074c8865.chunk.js.map": "/typing-practice-app/static/js/2.074c8865.chunk.js.map",
+    "static/js/3.f73124d4.chunk.js": "/typing-practice-app/static/js/3.f73124d4.chunk.js",
+    "static/js/3.f73124d4.chunk.js.map": "/typing-practice-app/static/js/3.f73124d4.chunk.js.map",
+    "index.html": "/typing-practice-app/index.html",
+    "static/css/main.794ac87e.chunk.css.map": "/typing-practice-app/static/css/main.794ac87e.chunk.css.map",
+    "static/js/2.074c8865.chunk.js.LICENSE.txt": "/typing-practice-app/static/js/2.074c8865.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.6f6326ca.js",
+    "static/js/2.074c8865.chunk.js",
+    "static/css/main.794ac87e.chunk.css",
+    "static/js/main.b330f9b6.chunk.js"
+  ]
+}
